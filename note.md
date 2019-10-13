@@ -5,11 +5,6 @@
 - 解释型语言 JS Python
   > 需要解释器去解释代码 解释的过程比较慢
 
-### 效率
-
-- 运行效率
-- 开发效率
-
 ## 基本数据类型
 
 ### Number 数字
@@ -330,7 +325,8 @@
     {1, 2, 5, 6, 7, 8}
     ```
 - 集合的运算
-- 差集 交集 并集
+
+  - 差集 交集 并集
 
   ```python
   >>> type(set()) // 定义一个空的集合
@@ -578,3 +574,275 @@
     >>> a is not b
     True
     ```
+
+    - 判断变量的值 id(身份) 和 类型
+      - 在 python 中 万物皆是对象 对象的三个特征就是 值(value) 身份(id) 和类型(type)
+        - 值
+        ```python
+        >>> a = 1
+        >>> a == 1  // == 运算符 用来判断值 value
+        True
+        ```
+        - 身份
+        ```python
+        >>> id(a)  // id() 方法用来查看变量的地址
+        4463799088
+        ```
+        - 类型
+        ```python
+        >>> isinstance(1, int)  // isinstance()方法用来判断变量是否为第二个参数类型
+        True
+        >>> isinstance(1,(str,int,float)) // 第二个参数也可以是一个元祖，只要符合元祖中任意一个条件即可返回True
+        True
+        ```
+
+  - 位运算符
+    - 把数字当作二进制数进行运算
+    - `&` 按位与
+    - `|` 按位或
+    - `^` 按位异或
+    - `~` 按位取反
+    - `<<` 左移动
+    - `>>` 右移动
+    ```python
+    >>> a = 2  // 二进制 10
+    >>> b = 3  // 二进制 11
+    >>> a & b  // 每一位去比较 两位都是 `1` 才为 `1`,通过 `按位与` 计算为 `10`
+    2          // 10 最终转换为 10进制 为2
+    >>>
+    ```
+
+## 表达式
+
+- 表达式是运算符和操作数所构成的序列
+  ```python
+  >>> 1 + 2 * 3
+  7
+  >>> (1 + 2) * 3 // 表达式是有序的
+  9
+  ```
+- 表达式的优先级
+  - 1. 同级情况下默认从左到右解析（术语：左结合）(有等号的情况下变成右结合)
+  - 2. `*` 大于 `+`
+  - 3. `and` 大于 `or`
+  - 4. `not` 大于 `or`
+  - 5. `not` > `and` > `or`
+  ```python
+  >>> 1 or 2 and 3      // and 大于 or
+  1
+  >>> (1 or 2) and 3     // 通过()来改变运算的优先级
+  3
+  >>> a = 1 + 2        // 右结合: 先计算等号右边
+  >>> not 1 or 2 + 2 == 2  // (not 1) or ((2 + 2) == 2)
+  False
+  ```
+
+## vscode 环境 插件配置
+
+- 插件
+  - 1. python
+    - 智能感知 断点调试
+  - 2. vscode-icon
+    - 美化文件图标
+
+## 流程控制语句
+
+- 条件控制
+
+  - `if else`
+
+    - python 通过换行缩进来确定内部语句
+
+    ```python
+    # 1. if/else 基本用法和其他语言没有太大区别
+    mood = True
+    if mood:
+        print('AAA')
+    else:
+        pass   # pass 占位符 什么都不做 类似于JS中return
+
+    # 2. elif 分支写法
+    # python中没有switch写法 可用两种方法来代替：
+    # 1. 通过elif来代替
+    # 2. 通过字典的key获取value来代替
+    if a == 1:
+        print('A')
+    elif a == 2:
+        print('B')
+    elif a == 3:
+        print('C')
+    elif a == 4:
+        print('D')
+    else:
+        print('E')
+    ```
+
+- 循环控制
+
+  - while 循环
+
+    - 递归场景下 比较适合使用 while
+
+    ```python
+    CONDITION = 1
+
+    while CONDITION <= 10:  # 当 CONDITION 小于10时执行
+        print(CONDITION)
+        CONDITION += 1
+    else:
+        print('结束了')    # while可以和else进行结合 当执行完所有while后 会执行一次else
+    ```
+
+  - for 循环
+
+    - 主要用来遍历 ` 序列``集合 `或者`字典` 但是`python`for 循环中可以使用`else`关键字
+      ```python
+        a = ['apple', 'banana', 'orange']
+        for item in a:        # 类似于JS中的for...in...
+            print(item)
+        else:               # python的for循环的最后可以加一个else  它是在循环结束后执行
+            print('for循环结束了')
+      ```
+    - break
+      在 `pyhton` 的 `for` 循环中 通过 `break` 关键字来跳出循环
+
+      ```python
+      a = ['apple', 'banana', 'orange']
+      for item in a:
+          if item == 'orange':
+              break      # break后 for循环后面所有的代码都不会执行 直接跳出for循环(else也不会执行)
+          print(item)
+      ```
+
+    - continue:
+      在 `pyhton` 的 `for` 循环中 通过 `continue` 关键字来跳过某次循环
+
+      ```python
+      a = ['apple', 'banana', 'orange']
+      for item in a:
+          if item == 'banana':
+              continue     # continue后 for循环会跳过本次循环 接着执行后面的循环
+          print(item)
+
+      ```
+
+    - range()函数 `python`中的`for(let i = 0; i < arr.length; i++){..}`
+
+    ```python
+    # c9:
+    for item in range(0, 10, 2):   # range() 函数第一个参数是起始值 第二个参数是偏移量 第三个参数是步长 间隔多少 可以是负数 但不是必须参数
+    print(item)
+    ```
+
+## Python 的组织管理
+
+- 包
+
+  - 包下面必须有一个`__init__.py`文件
+  - 1. 规定包下的哪些模块可以供导出
+
+    - 当一个包被导入的时候 不管你导入的是包还是模块变量 `__init__.py`文件都会自动执行
+
+      ```python
+      # 包名为 dir 的 __init__.py 文件:
+      __all__ = ['a1']  # 可以规定该包下只有某些模块(文件)可以导出
+
+      # 导入包的文件:
+      from dir import * # 从dir包中导入所有的模块(文件)
+      print(a1.a)  # 可以得到a1.a变量 因为 dir 包的 __init__.py 文件 规定了 a1文件可以导出
+      print(a11.e)  # 不可以得到a11.ae变量 因为 dir 包的 __init__.py 文件 没有规定 a11 文件可以导出
+      ```
+
+  - 2. 批量导入
+
+       - 只需在包的`__init__.py`文件中引入导入率较高的公共模块，在其他模块中只需通过引入该包 即可使用这些公共模块
+
+       ```python
+        # dir包的__init__.py:
+        import sys            # 只需在包的__init__.py文件中一次导入所有模块
+        import datetime       # 在其他模块中就可以通过引入该包的形式
+        import io             # 来使用__init__.py中所导入的所有模块
+
+        # 其他模块:
+        import dir
+        print(dir.sys.path)   # 在其他模块中不引入sys模块 也可以使用sys模块 因为dir包已经导入过了
+       ```
+
+- 模块
+
+  > 可以理解为一个文件 但不是一个真的文件
+
+  - 1. 通过 import 导入模块
+
+    ```python
+    # a1.py & a2.py
+    import dir.a1   # 导入「命名空间」 缺点: 如果模块的层级很深时 导入模块则需要写很长的命名空间
+    print(dir.a1.a)  # 变量的使用同样遵循improt导入的写法
+
+    # 使用别名 as
+    import dir.a1 as x   # 导入「命名空间」 作为 「模块别名」 此时模块x就作为dir.a1
+    print(x.a)   # 使用时 可以直接使用 模块别名.变量
+    ```
+
+  - 2. 通过 from import 导入模块
+
+    ```python
+    # from import 直接导入变量
+    from dir.a1 import a  # 从 「命名空间」 导入 「变量」
+    print(a)  # 此处可直接使用变量 因为from import导入直接就是变量
+
+    # from import 导入模块
+    from dir import a1  # 从 「命名空间」 导入 「模块」
+    print(a1.a)  #
+
+    # from import 一次导入模块所有变量
+    from dir.a1 import *  # 将模块 dir.a1 中所有变量全部导入
+    print(a)
+    print(b)
+    print(c)
+    print(d)
+
+    # 在模块中通过模块的内置属性 __all__ ,来控制导出部分变量
+    __all__ = ['a', 'b']     # 限制导出某些变量
+    a = 1     # 外部模块通过 from xxx.x import *  引入该模块时
+    b = 2     # 只能引入a和b两个变量
+    c = 3
+    d = 4
+    ```
+
+  - 3. python 中一次导入多个模块/变量
+
+    ```python
+    from dir.a1 import a, b, c,\
+      d                   # 从 「命名空间」 导入 「变量, 变量, 变量...」  python中换行是行尾加 \
+    from dir.a1 import (a, b, c,     # 或者用小括号对多个变量进行包裹
+    d)
+    print(a)
+    print(b)
+    print(c)
+    print(d)
+
+    ```
+
+    - import 和 from import 的区别
+      > import 导入的是一个模块 而 from import 导入的可以是一个模块也可以是一个变量
+
+  - 4. 模块的内置变量
+    ```python
+     '''
+         这是a22.py的注释..
+     '''
+     print('__name__:'+__name__)   # 模块的命名空间(模块的相对路径)
+     print('__package__:'+__package__)   # 模块的包名(模块的父级目录)
+     print('__doc__:'+__doc__)    # 模块的文档说明(三引号括起来的文档说明)
+     print('__file__:'+__file__)    # 模块的物理路径(模块的绝对路径)
+    ```
+
+- 类
+
+- 函数 变量
+
+- 常见错误
+  - 包和模块是不会被重复导入的
+  - 避免循环导入
+    > `模块1`中导入了`模块2`, `模块2`中又导入了`模块1`
